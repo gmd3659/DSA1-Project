@@ -30,7 +30,7 @@ void SetMaze(const int** p_data, int p_width, int p_height)
 	}
 }
 
-int** GetMaze()
+int** GetMaze(int& width, int& height)
 {
 
 }
