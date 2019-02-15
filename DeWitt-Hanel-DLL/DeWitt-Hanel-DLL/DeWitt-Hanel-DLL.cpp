@@ -12,12 +12,16 @@ int yStart;
 int xEnd;
 int yEnd;
 
+int xCurrent;
+int yCurrent;
+
 
 void test()
 {
 
 }
 
+// Returns a string that has both team members name.  Have the C string value return both team member names.  There is no defined format for this.
 char* GetTeam()
 {
 	char team[] = "Group 10 -- Gavin Dewitt and Brad Hanel";
@@ -33,11 +37,23 @@ void SetMaze(const int** p_data, int p_width, int p_height)
 			*data[i, j] = *p_data[i, j];
 		}
 	}
+	width = p_width;
+	height = p_height;
 }
 
-int** GetMaze(int& width, int& height)
+int** GetMaze(int& p_width, int& p_height)
 {
+	width = p_width;
+	height = p_height;
+	return data; 
+}
 
+void GetNextPositions(int& xpos, int& ypos) 
+{
+	int xvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int yvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	xCurrent = xpos;
+	yCurrent = ypos;
 }
 
 void SetStart(int xPos, int yPos)
