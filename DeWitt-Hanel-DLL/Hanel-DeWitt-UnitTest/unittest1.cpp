@@ -5,11 +5,11 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 __declspec(dllimport) char* GetTeam();
 __declspec(dllimport) void SetMaze(const int** p_data, int p_width, int p_height);
 __declspec(dllimport) int** GetMaze(int& p_width, int& p_height);
-__declspec(dllimport) void GetNextPositions(int& xpos, int& ypos);
-__declspec(dllimport) bool SetStart(int xPos, int yPos);
-__declspec(dllimport) bool GetStart(int& xPos, int& yPos);
-__declspec(dllimport) bool SetEnd(int xPos, int yPos);
-__declspec(dllimport) bool GetEnd(int& xPos, int& yPos);
+__declspec(dllimport) void GetNextPosition(int& xpos, int& ypos);
+__declspec(dllimport) void SetStart(int xPos, int yPos);
+__declspec(dllimport) void GetStart(int& xPos, int& yPos);
+__declspec(dllimport) void SetEnd(int xPos, int yPos);
+__declspec(dllimport) void GetEnd(int& xPos, int& yPos);
 
 namespace HanelDeWittUnitTest
 {		
@@ -99,7 +99,7 @@ namespace HanelDeWittUnitTest
 		}
 
 		//GetEnd Tests
-		TEST_METHOD(TestGetEnd)
+		TEST_METHOD(TestGetEndBadX)
 		{
 			//Checks for invalid x
 
@@ -109,8 +109,8 @@ namespace HanelDeWittUnitTest
 			bool ret = GetStart(x, y);
 			Assert::IsFalse(ret);
 		}
-
-		TEST_METHOD(TestGetEnd)
+		
+		TEST_METHOD(TestGetEndBadY)
 		{
 			//Checks for invalid y
 
