@@ -61,11 +61,26 @@ namespace HanelDeWittUnitTest
 		}
 
 		//GetStart Tests
-		TEST_METHOD(TestGetStart)
+		TEST_METHOD(TestGetStartBadX)
 		{
-			//Checks for 
-			bool ret = GetStart();
+			//Checks for invalid x
 
+			int x = -1;
+			int y = 0;
+
+			bool ret = GetStart(x, y);
+			Assert::IsFalse(ret);
+		}
+
+		TEST_METHOD(TestGetStartBadY)
+		{
+			//Checks for invalid y
+
+			int x = 0;
+			int y = -1;
+
+			bool ret = GetStart(x, y);
+			Assert::IsFalse(ret);
 		}
 
 		//Set End Tests
@@ -86,7 +101,24 @@ namespace HanelDeWittUnitTest
 		//GetEnd Tests
 		TEST_METHOD(TestGetEnd)
 		{
-			// TODO: Your test code here
+			//Checks for invalid x
+
+			int x = -1;
+			int y = 0;
+
+			bool ret = GetStart(x, y);
+			Assert::IsFalse(ret);
+		}
+
+		TEST_METHOD(TestGetEnd)
+		{
+			//Checks for invalid y
+
+			int x = 0;
+			int y = -1;
+
+			bool ret = GetStart(x, y);
+			Assert::IsFalse(ret);
 		}
 
 	};
