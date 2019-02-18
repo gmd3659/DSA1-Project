@@ -12,8 +12,22 @@ int yStart;
 int xEnd;
 int yEnd;
 
+int xvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
+int yvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
+
 int xCurrent;
 int yCurrent;
+
+char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
+
+__declspec(dllexport) char* GetTeam();
+__declspec(dllexport) void SetMaze(const int** p_data, int p_width, int p_height);
+__declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
+__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos);
+__declspec(dllexport) void SetStart(int xPos, int yPos);
+__declspec(dllexport) void GetStart(int& xPos, int& yPos);
+__declspec(dllexport) void SetEnd(int xPos, int yPos);
+__declspec(dllexport) void GetEnd(int& xPos, int& yPos);
 
 
 void test()
@@ -24,7 +38,6 @@ void test()
 // Returns a string that has both team members name.  Have the C string value return both team member names.  There is no defined format for this.
 char* GetTeam()
 {
-	char team[] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 	return team;
 }
 
@@ -48,12 +61,10 @@ int** GetMaze(int& p_width, int& p_height)
 	return data; 
 }
 
-void GetNextPositions(int& xpos, int& ypos) 
+void GetNextPosition(int& xpos, int& ypos) 
 {
-	int xvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
-	int yvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
-	xCurrent = xpos;
-	yCurrent = ypos;
+	xCurrent = xvals[0];
+	yCurrent = yvals[0];
 }
 
 void SetStart(int xPos, int yPos)
