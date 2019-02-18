@@ -30,12 +30,36 @@ namespace HanelDeWittUnitTest
 		TEST_METHOD(TestSetMaze)
 		{
 			// TODO: Your test code here
+			const int** m = new const int*[3];
+			for (int i = 0; i < 3; i++) 
+			{ 
+				m[i] = new int[4];
+			}
+
+			SetMaze(m, 3, 4);
+
 		}
 
 		//GetMaze Tests
 		TEST_METHOD(TestGetMaze)
 		{
 			// TODO: Your test code here
+			const int** m = new const int*[3];
+			for (int i = 0; i < 3; i++)
+			{
+				m[i] = new int[4];
+			}
+
+			SetMaze(m, 3, 4);
+
+			const int** n = new const int*[3];
+			for (int i = 0; i < 3; i++)
+			{
+				n[i] = new int[4];
+			}
+
+			Assert::IsTrue(m == n);
+
 		}
 
 		//GetNextPosition Tests
