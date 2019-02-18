@@ -20,24 +20,20 @@ namespace HanelDeWittUnitTest
 		//GetTeam Tests
 		TEST_METHOD(TestGetTeam)
 		{
-			//Check for correct string
-			char* team = GetTeam();
-			bool ret = false;
-			if (team == "Group 10 --Gavin Dewitt and Brad Hanel")
-			{
-				ret == true;
-			}
-			Assert::IsTrue(ret);
 		}
-
+		
 		TEST_METHOD(SetMaze)
 		{
-			// TODO: Your test code here
+			
 		}
 
 		TEST_METHOD(GetMaze)
 		{
-			// TODO: Your test code here
+			int** data;
+			int num1 = 0;
+			int num2 = 0;
+			data = GetMaze(num1, num2);
+
 		}
 
 		TEST_METHOD(GetNextPositions)
