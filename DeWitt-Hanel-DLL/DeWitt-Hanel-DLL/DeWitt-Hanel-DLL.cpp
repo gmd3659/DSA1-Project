@@ -12,11 +12,10 @@ int yStart;
 int xEnd;
 int yEnd;
 
-int xvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
-int yvals[10] = { 1,2,3,4,5,6,7,8,9,10 };
+int gnpCall = 0;
 
-int xCurrent;
-int yCurrent;
+int yvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+int xvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 
@@ -52,19 +51,22 @@ void SetMaze(const int** p_data, int p_width, int p_height)
 	}
 	width = p_width;
 	height = p_height;
+
 }
 
 int** GetMaze(int& p_width, int& p_height)
 {
-	width = p_width;
-	height = p_height;
+	p_width = width;
+	p_height = height;
 	return data; 
 }
 
 void GetNextPosition(int& xpos, int& ypos) 
 {
-	xCurrent = xvals[0];
-	yCurrent = yvals[0];
+		xpos = xvals[gnpCall];
+		ypos = yvals[gnpCall];
+		gnpCall++;
+
 }
 
 void SetStart(int xPos, int yPos)
