@@ -66,7 +66,7 @@ namespace HanelDeWittUnitTest
 			int y = 0;
 
 			GetStart(x, y);
-			
+			Assert::
 		}
 
 		TEST_METHOD(TestGetStartBadY)
@@ -77,7 +77,7 @@ namespace HanelDeWittUnitTest
 			int y = -1;
 
 			GetStart(x, y);
-	
+			Assert::IsTrue()
 		}
 
 		//Set End Tests
