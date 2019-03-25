@@ -16,7 +16,7 @@ int yEnd;
 
 int gnpCall = 0;
 
-int yvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+int yvals[11] = { 1, 2, 3, 4, 4, 6, 7, 8, 9, 10 };
 int xvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
@@ -154,4 +154,9 @@ bool GetEnd(int& xPos, int& yPos)
 bool Restart()
 {
 	return false;
+}
+
+void runThis() 
+{
+
 }
