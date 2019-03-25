@@ -20,9 +20,9 @@ int xvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 
 __declspec(dllexport) char* GetTeam();
-__declspec(dllexport) void SetMaze(const int** p_data, int p_width, int p_height);
+__declspec(dllexport) bool SetMaze(const int** p_data, int p_width, int p_height);
 __declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
-__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos);
+__declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos);
 __declspec(dllexport) void SetStart(int xPos, int yPos);
 __declspec(dllexport) void GetStart(int& xPos, int& yPos);
 __declspec(dllexport) void SetEnd(int xPos, int yPos);
@@ -40,7 +40,7 @@ char* GetTeam()
 	return team;
 }
 
-void SetMaze(const int** p_data, int p_width, int p_height)
+bool SetMaze(const int** p_data, int p_width, int p_height)
 {
 	width = p_width;
 	height = p_height;
@@ -52,6 +52,12 @@ void SetMaze(const int** p_data, int p_width, int p_height)
 		}
 	}
 
+	if(width <= 0 || height <= 0)
+	{
+		return false;
+	}
+	return true;
+
 }
 
 int** GetMaze(int& p_width, int& p_height)
@@ -59,14 +65,23 @@ int** GetMaze(int& p_width, int& p_height)
 	p_width = width;
 	p_height = height;
 	return const_cast<int**>(data); 
+
+	if (data == NULL) 
+	{
+		return nullptr;
+	}
 }
 
-void GetNextPosition(int& xpos, int& ypos) 
+bool GetNextPosition(int& xpos, int& ypos) 
 {
-		xpos = xvals[gnpCall];
-		ypos = yvals[gnpCall];
-		gnpCall++;
-
+	if(gnpCall >= sizeof(xvals) / sizeof(*xvals) || sizeof(yvals) / sizeof(*yvals))
+	{
+		return false;
+	}
+	xpos = xvals[gnpCall];
+	ypos = yvals[gnpCall];
+	gnpCall++;
+	return true;
 }
 
 void SetStart(int xPos, int yPos)
