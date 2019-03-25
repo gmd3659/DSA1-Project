@@ -27,6 +27,7 @@ __declspec(dllexport) bool SetStart(int xPos, int yPos);
 __declspec(dllexport) bool GetStart(int& xPos, int& yPos);
 __declspec(dllexport) bool SetEnd(int xPos, int yPos);
 __declspec(dllexport) bool GetEnd(int& xPos, int& yPos);
+__declspec(dllexport) bool Restart();
 
 
 // Returns a string that has both team members name.  Have the C string value return both team member names.  There is no defined format for this.
@@ -35,16 +36,15 @@ char* GetTeam()
 	return team;
 }
 
+//sets the maze data from the main program into the DLL.  Save the data into a variable in the DLL. 
 bool SetMaze(const int** p_data, int p_width, int p_height)
 {
 	width = p_width;
 	height = p_height;
-	for (int i = 0; i < p_width; i++)
+	data = new int*[width];
+	for (int i = 0; i < width; i++)
 	{
-		for (int j = 0; j < p_height; j++)
-		{
-			*data[i, j] = *p_data[i, j];
-		}
+		data[i] = new int[height];
 	}
 
 	if(width <= 0 || height <= 0)
@@ -55,6 +55,7 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 
 }
 
+//gets the maze data from the DLL. Return the maze data that was passed in using the SetMaze function, and the width/ height using the references to the arguments. If the maze data is not set, then return nullptr.
 int** GetMaze(int& p_width, int& p_height)
 {
 	p_width = width;
@@ -67,9 +68,10 @@ int** GetMaze(int& p_width, int& p_height)
 	}
 }
 
+//returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	if(gnpCall >= sizeof(xvals) / sizeof(*xvals) || sizeof(yvals) / sizeof(*yvals))
+	if(gnpCall >= (sizeof(xvals) / sizeof(*xvals)) || gnpCall >= (sizeof(yvals) / sizeof(*yvals)))
 	{
 		return false;
 	}
@@ -79,20 +81,22 @@ bool GetNextPosition(int& xpos, int& ypos)
 	return true;
 }
 
+//sets the starting location for the player.  Save the x and y values for the starting location. Return true if the data being saved is valid and was saved, else return false.
 bool SetStart(int xPos, int yPos)
 {
-	//Set start variables
-	xStart = xPos;
-	yStart = yPos;
 
 	//return whether x and y are valid
 	if (xPos >= 0 && yPos >= 0)
 	{
+		//Set start variables
+		xStart = xPos;
+		yStart = yPos;
 		return true;
 	}
 	return false;
 }
 
+//gets the starting location for the player.  Return the saved x and y starting locations. Return true if the data for the starting location was saved and is valid, else return false. If you are returning false, then you do not need to send the x and y values back.
 bool GetStart(int& xPos, int& yPos)
 {
 	if (xStart >= 0 && yStart >= 0)
@@ -111,19 +115,21 @@ bool GetStart(int& xPos, int& yPos)
 	}
 }
 
+//sets the ending location for the player.  Save the x and y values for the ending location. Return true if the data being saved is valid and was saved, else return false.
 bool SetEnd(int xPos, int yPos)
 {
-	xEnd = xPos;
-	yEnd = yPos;
 
 	//return whether x and y are valid
-	if (xEnd >= 0 && yEnd >= 0)
+	if (xPos >= 0 && yPos >= 0)
 	{
+		xEnd = xPos;
+		yEnd = yPos;
 		return true;
 	}
 	return false;
 }
 
+//gets the ending location for the player.  Return the saved x and y end locations.  Return true if the data for the ending location was saved and is valid, else return false. If you are returning false, then you do not need to send the x and y values back.
 bool GetEnd(int& xPos, int& yPos)
 {
 	if (xEnd >= 0 && yEnd >= 0)
@@ -142,9 +148,8 @@ bool GetEnd(int& xPos, int& yPos)
 	}
 }
 
+//this function will make the player start back at their start location and step through each part of the path to the end again.
 bool Restart()
 {
-	//Set back to start
-	SetStart(xvals[1], yvals[1]);
-	//GetStart(,);
+	return false;
 }
