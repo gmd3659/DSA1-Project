@@ -23,10 +23,10 @@ __declspec(dllexport) char* GetTeam();
 __declspec(dllexport) void SetMaze(const int** p_data, int p_width, int p_height);
 __declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
 __declspec(dllexport) void GetNextPosition(int& xpos, int& ypos);
-__declspec(dllexport) void SetStart(int xPos, int yPos);
-__declspec(dllexport) void GetStart(int& xPos, int& yPos);
-__declspec(dllexport) void SetEnd(int xPos, int yPos);
-__declspec(dllexport) void GetEnd(int& xPos, int& yPos);
+__declspec(dllexport) bool SetStart(int xPos, int yPos);
+__declspec(dllexport) bool GetStart(int& xPos, int& yPos);
+__declspec(dllexport) bool SetEnd(int xPos, int yPos);
+__declspec(dllexport) bool GetEnd(int& xPos, int& yPos);
 
 
 void test()
@@ -69,42 +69,70 @@ void GetNextPosition(int& xpos, int& ypos)
 
 }
 
-void SetStart(int xPos, int yPos)
+bool SetStart(int xPos, int yPos)
 {
+	//Set start variables
 	xStart = xPos;
 	yStart = yPos;
+
+	//return whether x and y are valid
+	if (xPos >= 0 && yPos >= 0)
+	{
+		return true;
+	}
+	return false;
 }
 
-void GetStart(int& xPos, int& yPos)
+bool GetStart(int& xPos, int& yPos)
 {
 	if (xStart >= 0 && yStart >= 0)
 	{
+		//Return values and true
 		xPos = xStart;
 		yPos = yStart;
+		return true;
 	}
 	else
 	{
-		xPos = -1;
-		yPos = -1;
+		//Don't return points unless valid
+		//xPos = -1;
+		//yPos = -1;
+		return false;
 	}
 }
 
-void SetEnd(int xPos, int yPos)
+bool SetEnd(int xPos, int yPos)
 {
 	xEnd = xPos;
 	yEnd = yPos;
+
+	//return whether x and y are valid
+	if (xEnd >= 0 && yEnd >= 0)
+	{
+		return true;
+	}
+	return false;
 }
 
-void GetEnd(int& xPos, int& yPos)
+bool GetEnd(int& xPos, int& yPos)
 {
 	if (xEnd >= 0 && yEnd >= 0)
 	{
+		//Return values and true
 		xPos = xEnd;
 		yPos = yEnd;
+		return true;
 	}
 	else
 	{
-		xPos = -1;
-		yPos = -1;
+		//Don't return points unless valid
+		//xPos = -1;
+		//yPos = -1;
+		return false;
 	}
+}
+
+bool Restart()
+{
+
 }
