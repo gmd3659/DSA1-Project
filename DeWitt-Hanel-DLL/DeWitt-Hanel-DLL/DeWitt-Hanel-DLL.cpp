@@ -29,11 +29,6 @@ __declspec(dllexport) bool SetEnd(int xPos, int yPos);
 __declspec(dllexport) bool GetEnd(int& xPos, int& yPos);
 
 
-void test()
-{
-
-}
-
 // Returns a string that has both team members name.  Have the C string value return both team member names.  There is no defined format for this.
 char* GetTeam()
 {
