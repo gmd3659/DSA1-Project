@@ -149,5 +149,7 @@ bool GetEnd(int& xPos, int& yPos)
 
 bool Restart()
 {
-
+	//Set back to start
+	SetStart(xvals[1], yvals[1]);
+	//GetStart(,);
 }
