@@ -22,7 +22,7 @@ char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 __declspec(dllexport) char* GetTeam();
 __declspec(dllexport) bool SetMaze(const int** p_data, int p_width, int p_height);
 __declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
-__declspec(dllexport) void GetNextPosition(int& xpos, int& ypos);
+__declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos);
 __declspec(dllexport) bool SetStart(int xPos, int yPos);
 __declspec(dllexport) bool GetStart(int& xPos, int& yPos);
 __declspec(dllexport) bool SetEnd(int xPos, int yPos);
