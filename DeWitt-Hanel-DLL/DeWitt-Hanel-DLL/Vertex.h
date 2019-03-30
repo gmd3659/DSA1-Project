@@ -1,8 +1,10 @@
 #pragma once
+
+
 class Vertex
 {
 public:
-	Vertex();
+	Vertex(int p_xpos, int p_ypos);
 	~Vertex();
 
 	int xPos;

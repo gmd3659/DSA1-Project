@@ -1,23 +1,29 @@
 #include "stdafx.h"
 #include "Graph.h"
-#include "DeWitt-Hanel-DLL.cpp"
+
 
 
 Graph::Graph()
 {
-	//Set adjacency matrix 
-	
-	//(this is a test and idk if its acually how to do it)
 	for (int i = 0; i < width; i++)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			//Maybe set vertexes or something?
+			if (data[i][j] == 0)
+			{
+				openList.push_back(Vertex(i, j));
+				xvals.push_back(i);
+				yvals.push_back(j);
+			}
 		}
 	}
 }
 
 
+
+
 Graph::~Graph()
 {
 }
+
+

@@ -4,20 +4,19 @@
 #include "stdafx.h"
 #include "Graph.h"
 #include "Vertex.h"
+#include <vector>
 
-int** data;
-int width;
-int height;
+
 
 int xStart;
 int yStart;
 int xEnd;
 int yEnd;
 
-int gnpCall = 0;
+Graph g = Graph();
 
-int yvals[11] = { 1, 2, 3, 4, 4, 6, 7, 8, 9, 10 };
-int xvals[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+int gnpCall = 0;
 
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 
@@ -41,15 +40,16 @@ char* GetTeam()
 //sets the maze data from the main program into the DLL.  Save the data into a variable in the DLL. 
 bool SetMaze(const int** p_data, int p_width, int p_height)
 {
-	width = p_width;
-	height = p_height;
-	data = new int*[width];
-	for (int i = 0; i < width; i++)
+	
+	g.width = p_width;
+	g.height = p_height;
+	g.data = new int*[g.width];
+	for (int i = 0; i < g.width; i++)
 	{
-		data[i] = new int[height];
+		g.data[i] = new int[g.height];
 	}
 
-	if(width <= 0 || height <= 0)
+	if(g.width <= 0 || g.height <= 0)
 	{
 		return false;
 	}
@@ -60,11 +60,11 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 //gets the maze data from the DLL. Return the maze data that was passed in using the SetMaze function, and the width/ height using the references to the arguments. If the maze data is not set, then return nullptr.
 int** GetMaze(int& p_width, int& p_height)
 {
-	p_width = width;
-	p_height = height;
-	return const_cast<int**>(data); 
+	p_width = g.width;
+	p_height = g.height;
+	return const_cast<int**>(g.data);
 
-	if (data == NULL) 
+	if (g.data == NULL)
 	{
 		return nullptr;
 	}
@@ -73,12 +73,12 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	if(gnpCall >= (sizeof(xvals) / sizeof(*xvals)) || gnpCall >= (sizeof(yvals) / sizeof(*yvals)))
+	if(gnpCall >= (g.xvals.size()) || gnpCall >= (g.yvals.size()))
 	{
 		return false;
 	}
-	xpos = xvals[gnpCall];
-	ypos = yvals[gnpCall];
+	xpos = g.xvals.at(gnpCall);
+	ypos = g.yvals.at(gnpCall);
 	gnpCall++;
 	return true;
 }
@@ -143,9 +143,6 @@ bool GetEnd(int& xPos, int& yPos)
 	}
 	else
 	{
-		//Don't return points unless valid
-		//xPos = -1;
-		//yPos = -1;
 		return false;
 	}
 }
@@ -156,7 +153,7 @@ bool Restart()
 	return false;
 }
 
-void runThis() 
+void RunThis() 
 {
-
+	
 }
