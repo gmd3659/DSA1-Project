@@ -7,6 +7,7 @@
 
 Vertex::Vertex(int p_xpos, int p_ypos, int xEnd, int yEnd)
 {
+	visited = false;
 	xPos = p_xpos;
 	yPos = p_ypos;
 	heuristic = abs(xPos - xEnd) + abs(yPos - yEnd);

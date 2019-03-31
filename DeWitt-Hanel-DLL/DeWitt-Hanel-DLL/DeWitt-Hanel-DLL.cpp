@@ -94,8 +94,15 @@ bool GetNextPosition(int& xpos, int& ypos)
 	{
 		return false;
 	}
-	xpos = g.openList.at(gnpCall).getX();
-	ypos = g.openList.at(gnpCall).getY();
+
+	//Check for unvisited empty neighbor spaces
+	if (g.data[xpos+1][ypos] == 0)
+	{
+
+	}
+
+	//xpos = g.openList.at(gnpCall).getX();
+	//ypos = g.openList.at(gnpCall).getY();
 	gnpCall++;
 	return true;
 }
