@@ -10,10 +10,12 @@ public:
 	Graph();
 	~Graph();
 
+	//list of all 0's in data that are unvisited
 	std::vector<Vertex> openList = {};
-	std::vector<Vertex> closedList = {};
+	std::vector<Vertex> visitedList = {};
 	int** adjacencyMatrix;
 
+	//sent in by exe
 	int** data;
 	int width;
 	int height;
@@ -21,6 +23,7 @@ public:
 	std::vector<int> yvals = {};
 	std::vector<int> xvals = {};
 
+	//start and end positions, sent in by exe
 	int xStart;
 	int yStart;
 	int xEnd;
