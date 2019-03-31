@@ -18,7 +18,12 @@ public:
 	int width;
 	int height;
 
-	std::vector<int> yvals;
-	std::vector<int> xvals;
+	std::vector<int> yvals = {};
+	std::vector<int> xvals = {};
+
+	int xStart;
+	int yStart;
+	int xEnd;
+	int yEnd;
 };
 

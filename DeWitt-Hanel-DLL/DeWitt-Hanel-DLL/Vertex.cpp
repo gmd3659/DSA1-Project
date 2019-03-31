@@ -1,14 +1,30 @@
 #include "stdafx.h"
 #include "Vertex.h"
+#include "Graph.h"
 #include <cstdlib>
 
 
 
-Vertex::Vertex(int p_xpos, int p_ypos)
+Vertex::Vertex(int p_xpos, int p_ypos, int xEnd, int yEnd)
 {
 	xPos = p_xpos;
 	yPos = p_ypos;
-	//heuristic = abs(xPos - xEnd) + abs(yPos - yEnd);
+	heuristic = abs(xPos - xEnd) + abs(yPos - yEnd);
+}
+
+int Vertex::getX() 
+{
+	return xPos;
+}
+
+int Vertex::getY()
+{
+	return yPos;
+}
+
+int Vertex::getHeur()
+{
+	return heuristic;
 }
 
 

@@ -8,15 +8,11 @@
 
 
 
-int xStart;
-int yStart;
-int xEnd;
-int yEnd;
 
 Graph g = Graph();
 
 
-int gnpCall = 0;
+size_t gnpCall = 0;
 
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 
@@ -49,6 +45,25 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 		g.data[i] = new int[g.height];
 	}
 
+	for (int i = 0; i < g.height; i++)
+	{
+		for (int j = 0; j < g.width; j++) 
+		{
+			g.data[i][j] = p_data[i][j];
+		}
+	}
+
+	for (int i = 0; i < g.height; i++)
+	{
+		for (int j = 0; j < g.width; j++)
+		{
+			if (g.data[i][j] == 0)
+			{
+				g.openList.push_back(Vertex(i, j, g.xEnd, g.yEnd));
+			}
+		}
+	}
+
 	if(g.width <= 0 || g.height <= 0)
 	{
 		return false;
@@ -70,15 +85,17 @@ int** GetMaze(int& p_width, int& p_height)
 	}
 }
 
+
+
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	if(gnpCall >= (g.xvals.size()) || gnpCall >= (g.yvals.size()))
+	if(gnpCall >= (g.openList.size()))
 	{
 		return false;
 	}
-	xpos = g.xvals.at(gnpCall);
-	ypos = g.yvals.at(gnpCall);
+	xpos = g.openList.at(gnpCall).getX();
+	ypos = g.openList.at(gnpCall).getY();
 	gnpCall++;
 	return true;
 }
@@ -91,8 +108,8 @@ bool SetStart(int xPos, int yPos)
 	if (xPos >= 0 && yPos >= 0)
 	{
 		//Set start variables
-		xStart = xPos;
-		yStart = yPos;
+		g.xStart = xPos;
+		g.yStart = yPos;
 		return true;
 	}
 	return false;
@@ -101,11 +118,11 @@ bool SetStart(int xPos, int yPos)
 //gets the starting location for the player.  Return the saved x and y starting locations. Return true if the data for the starting location was saved and is valid, else return false. If you are returning false, then you do not need to send the x and y values back.
 bool GetStart(int& xPos, int& yPos)
 {
-	if (xStart >= 0 && yStart >= 0)
+	if (g.xStart >= 0 && g.yStart >= 0)
 	{
 		//Return values and true
-		xPos = xStart;
-		yPos = yStart;
+		xPos = g.xStart;
+		yPos = g.yStart;
 		return true;
 	}
 	else
@@ -124,8 +141,8 @@ bool SetEnd(int xPos, int yPos)
 	//return whether x and y are valid
 	if (xPos >= 0 && yPos >= 0)
 	{
-		xEnd = xPos;
-		yEnd = yPos;
+		g.xEnd = xPos;
+		g.yEnd = yPos;
 		return true;
 	}
 	return false;
@@ -134,11 +151,11 @@ bool SetEnd(int xPos, int yPos)
 //gets the ending location for the player.  Return the saved x and y end locations.  Return true if the data for the ending location was saved and is valid, else return false. If you are returning false, then you do not need to send the x and y values back.
 bool GetEnd(int& xPos, int& yPos)
 {
-	if (xEnd >= 0 && yEnd >= 0)
+	if (g.xEnd >= 0 && g.yEnd >= 0)
 	{
 		//Return values and true
-		xPos = xEnd;
-		yPos = yEnd;
+		xPos = g.xEnd;
+		yPos = g.yEnd;
 		return true;
 	}
 	else
