@@ -12,7 +12,7 @@ public:
 
 	//list of all 0's in data that are unvisited
 	std::vector<Vertex> openList = {};
-	std::vector<Vertex> visitedList = {};
+	std::stack<Vertex> previousPath = {};
 	int** adjacencyMatrix;
 
 	//sent in by exe
@@ -28,7 +28,5 @@ public:
 	int yStart;
 	int xEnd;
 	int yEnd;
-
-	std::stack<Vertex> previousPath = {};
 };
 
