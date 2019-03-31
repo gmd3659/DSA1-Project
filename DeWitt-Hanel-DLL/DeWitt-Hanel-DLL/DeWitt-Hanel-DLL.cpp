@@ -91,9 +91,10 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
+	//Set current/starting vector
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
 	
-
+	//Set visisted to true and add current vertex to stack
 	for (size_t i = 0; i < g.openList.size(); i++)
 	{
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
@@ -103,6 +104,7 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
+	//Check which of the 4 adjacent spaces can be moved to
 	for(size_t i = 0; i < g.openList.size(); i++)
 	{
 		if (g.openList[i].getX() == xpos + 1 && g.openList[i].getY() == ypos && g.openList[i].visited == false) 
@@ -124,12 +126,18 @@ bool GetNextPosition(int& xpos, int& ypos)
 	}
 
 	
-
+	//Check for more than 0 valid adjacent spaces
 	if (tempVector.size() == 1)
 	{
+		//If less than 0 valid spaces
+
+		//Pop the current vertex off the stack
 		g.previousPath.pop();
+
+		//Set lastVert equal to the previous vertex to step backwards
 		Vertex lastVert = g.previousPath.top();
 		
+		//Set the previously vertex's visited to false
 		for (size_t i = 0; i < g.openList.size(); i++)
 		{
 			if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
@@ -140,6 +148,7 @@ bool GetNextPosition(int& xpos, int& ypos)
 	}
 	else 
 	{
+		//If more than 0 valid spaces
 		Vertex lowest = tempVector[1];
 
 		for (size_t i = 1; i < tempVector.size(); i++)
