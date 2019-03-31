@@ -120,18 +120,33 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
-	Vertex lowest = tempVector[0];
-
-	for (size_t i = 1; i < tempVector.size(); i++)
+	if (tempVector.size() == 1) 
 	{
-		if (tempVector[i].getHeur() < lowest.getHeur()) 
+		for (size_t i = 0; i < g.openList.size(); i++) 
 		{
-			lowest = tempVector[i];
+			g.openList[i].visited == false;
+			
 		}
+		xpos = xpos;
+		ypos = ypos;
 	}
+	else 
+	{
+		Vertex lowest = tempVector[1];
 
-	xpos = lowest.getX();
-	ypos = lowest.getY();
+		for (size_t i = 1; i < tempVector.size(); i++)
+		{
+			if (tempVector[i].getHeur() > lowest.getHeur())
+			{
+				lowest = tempVector[i];
+			}
+		}
+		xpos = lowest.getX();
+		ypos = lowest.getY();
+	}
+	
+
+	
 	return true;
 }
 
