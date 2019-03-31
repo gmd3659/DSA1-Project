@@ -92,12 +92,14 @@ int** GetMaze(int& p_width, int& p_height)
 bool GetNextPosition(int& xpos, int& ypos) 
 {
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
+	std::stack<Vertex> previousPath = {};
 
 	for (size_t i = 0; i < g.openList.size(); i++)
 	{
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
 		{
 			g.openList[i].visited = true;
+			previousPath.push(g.openList[i]);
 		}
 	}
 
@@ -128,6 +130,20 @@ bool GetNextPosition(int& xpos, int& ypos)
 		if (tempVector[i].getHeur() < lowest.getHeur()) 
 		{
 			lowest = tempVector[i];
+		}
+	}
+
+	if (tempVector.size() == 1)
+	{
+		previousPath.pop();
+		Vertex lastVert = previousPath.top();
+		
+		for (size_t i = 0; i < g.openList.size(); i++)
+		{
+			if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
+			{
+				g.openList[i].visited = false;
+			}
 		}
 	}
 
