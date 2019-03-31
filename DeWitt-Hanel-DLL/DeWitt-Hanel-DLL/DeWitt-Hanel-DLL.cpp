@@ -100,7 +100,19 @@ bool GetNextPosition(int& xpos, int& ypos)
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
 		{
 			g.openList[i].visited = true;
-			g.previousPath.push(g.openList[i]);
+
+			//Check for it being the start
+			if (g.previousPath.size() == 0)
+			{
+				g.previousPath.push(g.openList[i]);
+
+			}
+			//Check to make sure were not pushing the same vertex twice
+			else if (g.previousPath.top().getX() != xpos || g.previousPath.top().getY() != ypos)
+			{
+				g.previousPath.push(g.openList[i]);
+			}
+
 		}
 	}
 
