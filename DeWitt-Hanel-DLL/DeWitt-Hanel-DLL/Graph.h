@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Vertex.h"
-
+#include <stack>
 
 class Graph
 {
@@ -28,5 +28,7 @@ public:
 	int yStart;
 	int xEnd;
 	int yEnd;
+
+	std::stack<Vertex> previousPath = {};
 };
 
