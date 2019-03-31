@@ -5,6 +5,7 @@
 #include "Graph.h"
 #include "Vertex.h"
 #include <vector>
+#include <stack>
 
 
 
@@ -90,27 +91,26 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	if(gnpCall >= (g.openList.size()))
-	{
-		return false;
-	}
+	
+	std::stack<Vertex> previousSteps = {};
+
 	std::vector<Vertex> tempVector = {};
 
 	for(int i = 0; i < g.openList.size(); i++) 
 	{
-		if (g.openList[i].getX() == xpos + 1 && g.openList[i].getX() == ypos && g.openList[i].visited == false) 
+		if (g.openList[i].getX() == xpos + 1 && g.openList[i].getY() == ypos && g.openList[i].visited == false) 
 		{
 			tempVector.push_back(g.openList[i]);
 		}
-		if (g.openList[i].getX() == xpos && g.openList[i].getX() == ypos + 1 && g.openList[i].visited == false)
+		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos + 1 && g.openList[i].visited == false)
 		{
 			tempVector.push_back(g.openList[i]);
 		}
-		if (g.openList[i].getX() == xpos - 1 && g.openList[i].getX() == ypos && g.openList[i].visited == false)
+		if (g.openList[i].getX() == xpos - 1 && g.openList[i].getY() == ypos && g.openList[i].visited == false)
 		{
 			tempVector.push_back(g.openList[i]);
 		}
-		if (g.openList[i].getX() == xpos&& g.openList[i].getX() == ypos - 1 && g.openList[i].visited == false)
+		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos - 1 && g.openList[i].visited == false)
 		{
 			tempVector.push_back(g.openList[i]);
 		}
@@ -126,9 +126,8 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
-	xpos = g.openList.at(gnpCall).getX();
-	ypos = g.openList.at(gnpCall).getY();
-	gnpCall++;
+	xpos = lowest.getX;
+	ypos = lowest.getY;
 	return true;
 }
 
