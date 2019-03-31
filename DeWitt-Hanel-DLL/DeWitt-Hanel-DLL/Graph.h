@@ -20,9 +20,6 @@ public:
 	int width;
 	int height;
 
-	std::vector<int> yvals = {};
-	std::vector<int> xvals = {};
-
 	//start and end positions, sent in by exe
 	int xStart;
 	int yStart;
