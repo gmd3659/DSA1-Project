@@ -94,15 +94,40 @@ bool GetNextPosition(int& xpos, int& ypos)
 	{
 		return false;
 	}
+	std::vector<Vertex> tempVector = {};
 
-	//Check for unvisited empty neighbor spaces
-	if (g.data[xpos+1][ypos] == 0)
+	for(int i = 0; i < g.openList.size(); i++) 
 	{
-
+		if (g.openList[i].getX() == xpos + 1 && g.openList[i].getX() == ypos && g.openList[i].visited == false) 
+		{
+			tempVector.push_back(g.openList[i]);
+		}
+		if (g.openList[i].getX() == xpos && g.openList[i].getX() == ypos + 1 && g.openList[i].visited == false)
+		{
+			tempVector.push_back(g.openList[i]);
+		}
+		if (g.openList[i].getX() == xpos - 1 && g.openList[i].getX() == ypos && g.openList[i].visited == false)
+		{
+			tempVector.push_back(g.openList[i]);
+		}
+		if (g.openList[i].getX() == xpos&& g.openList[i].getX() == ypos - 1 && g.openList[i].visited == false)
+		{
+			tempVector.push_back(g.openList[i]);
+		}
 	}
 
-	//xpos = g.openList.at(gnpCall).getX();
-	//ypos = g.openList.at(gnpCall).getY();
+	Vertex lowest = tempVector[0];
+
+	for (int i = 1; i < tempVector.size(); i++) 
+	{
+		if (tempVector[i].getHeur() < lowest.getHeur()) 
+		{
+			lowest = tempVector[i];
+		}
+	}
+
+	xpos = g.openList.at(gnpCall).getX();
+	ypos = g.openList.at(gnpCall).getY();
 	gnpCall++;
 	return true;
 }
@@ -174,10 +199,5 @@ bool GetEnd(int& xPos, int& yPos)
 //this function will make the player start back at their start location and step through each part of the path to the end again.
 bool Restart()
 {
-	return false;
-}
 
-void RunThis() 
-{
-	
 }
