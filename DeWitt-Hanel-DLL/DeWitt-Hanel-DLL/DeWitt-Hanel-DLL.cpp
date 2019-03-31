@@ -91,12 +91,17 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	
-	std::stack<Vertex> previousSteps = {};
+	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
 
-	std::vector<Vertex> tempVector = {};
+	for (size_t i = 0; i < g.openList.size(); i++)
+	{
+		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
+		{
+			g.openList[i].visited = true;
+		}
+	}
 
-	for(int i = 0; i < g.openList.size(); i++) 
+	for(size_t i = 0; i < g.openList.size(); i++)
 	{
 		if (g.openList[i].getX() == xpos + 1 && g.openList[i].getY() == ypos && g.openList[i].visited == false) 
 		{
@@ -118,7 +123,7 @@ bool GetNextPosition(int& xpos, int& ypos)
 
 	Vertex lowest = tempVector[0];
 
-	for (int i = 1; i < tempVector.size(); i++) 
+	for (size_t i = 1; i < tempVector.size(); i++)
 	{
 		if (tempVector[i].getHeur() < lowest.getHeur()) 
 		{
@@ -126,8 +131,8 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
-	xpos = lowest.getX;
-	ypos = lowest.getY;
+	xpos = lowest.getX();
+	ypos = lowest.getY();
 	return true;
 }
 
@@ -198,5 +203,5 @@ bool GetEnd(int& xPos, int& yPos)
 //this function will make the player start back at their start location and step through each part of the path to the end again.
 bool Restart()
 {
-
+	return false;
 }
