@@ -5,6 +5,7 @@
 #include "Graph.h"
 #include "Vertex.h"
 #include <vector>
+#include <stack>
 
 
 
@@ -91,12 +92,14 @@ int** GetMaze(int& p_width, int& p_height)
 bool GetNextPosition(int& xpos, int& ypos) 
 {
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
+	std::stack<Vertex> previousPath = {};
 
 	for (size_t i = 0; i < g.openList.size(); i++)
 	{
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
 		{
 			g.openList[i].visited = true;
+			previousPath.push(g.openList[i]);
 		}
 	}
 
@@ -120,33 +123,32 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
-	if (tempVector.size() == 1) 
-	{
-		for (size_t i = 0; i < g.openList.size(); i++) 
-		{
-			g.openList[i].visited == false;
-			
-		}
-		xpos = xpos;
-		ypos = ypos;
-	}
-	else 
-	{
-		Vertex lowest = tempVector[1];
+	Vertex lowest = tempVector[0];
 
-		for (size_t i = 1; i < tempVector.size(); i++)
+	for (size_t i = 1; i < tempVector.size(); i++)
+	{
+		if (tempVector[i].getHeur() < lowest.getHeur()) 
 		{
-			if (tempVector[i].getHeur() > lowest.getHeur())
+			lowest = tempVector[i];
+		}
+	}
+
+	if (tempVector.size() == 1)
+	{
+		previousPath.pop();
+		Vertex lastVert = previousPath.top();
+		
+		for (size_t i = 0; i < g.openList.size(); i++)
+		{
+			if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
 			{
-				lowest = tempVector[i];
+				g.openList[i].visited = false;
 			}
 		}
-		xpos = lowest.getX();
-		ypos = lowest.getY();
 	}
-	
 
-	
+	xpos = lowest.getX();
+	ypos = lowest.getY();
 	return true;
 }
 
