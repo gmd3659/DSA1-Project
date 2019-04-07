@@ -11,7 +11,7 @@
 
 
 Graph g = Graph();
-
+int inDeadEnd = 1;
 
 size_t gnpCall = 0;
 
@@ -91,6 +91,7 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
+	
 	//Set current/starting vector
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
 	
@@ -137,26 +138,38 @@ bool GetNextPosition(int& xpos, int& ypos)
 		}
 	}
 
+	if (tempVector.size() == 2) {
+		inDeadEnd++;
+	}
+	else {
+		inDeadEnd = 1;
+	}
 	
 	//Check for more than 0 valid adjacent spaces
 	if (tempVector.size() == 1)
 	{
 		//If less than 0 valid spaces
-
 		//Pop the current vertex off the stack
 		g.previousPath.pop();
 
-		//Set lastVert equal to the previous vertex to step backwards
-		Vertex lastVert = g.previousPath.top();
-		
-		//Set the previously vertex's visited to false
-		for (size_t i = 0; i < g.openList.size(); i++)
-		{
-			if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
+		for (int i = 0; i < inDeadEnd; i++) {
+
+			//Set lastVert equal to the previous vertex to step backwards
+			Vertex lastVert = g.previousPath.top();
+
+			//Set the previously vertex's visited to false
+			for (size_t i = 0; i < g.openList.size(); i++)
 			{
-				g.openList[i].visited = false;
+				if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
+				{
+					g.openList[i].visited = false;
+				}
 			}
+
+			g.previousPath.pop();
 		}
+		
+
 	}
 	else 
 	{
