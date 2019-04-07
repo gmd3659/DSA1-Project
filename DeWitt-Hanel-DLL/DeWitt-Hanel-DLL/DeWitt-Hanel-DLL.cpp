@@ -154,19 +154,16 @@ bool GetNextPosition(int& xpos, int& ypos)
 
 		for (int i = 0; i < inDeadEnd; i++) {
 
-			//Set lastVert equal to the previous vertex to step backwards
-			Vertex lastVert = g.previousPath.top();
-
 			//Set the previously vertex's visited to false
 			for (size_t i = 0; i < g.openList.size(); i++)
 			{
-				if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
+				if (g.openList[i].getX() == g.previousPath.top().getX() && g.openList[i].getY() == g.previousPath.top().getY())
 				{
 					g.openList[i].visited = false;
+					xpos = g.previousPath.top().getX();
+					ypos = g.previousPath.top().getY();
 				}
 			}
-
-			g.previousPath.pop();
 		}
 		
 
