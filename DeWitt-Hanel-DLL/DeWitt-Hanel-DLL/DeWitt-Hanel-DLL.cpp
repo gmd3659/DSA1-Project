@@ -50,7 +50,7 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 	{
 		for (int j = 0; j < g.width; j++) 
 		{
-			g.data[i][j] = p_data[i][j];
+			g.data[i][j] = p_data[i][j]; 
 		}
 	}
 
@@ -133,9 +133,10 @@ bool GetNextPosition(int& xpos, int& ypos)
 			tempVector.push_back(g.openList[i]);
 		}
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos - 1 && g.openList[i].visited == false)
-		{
+		{  
 			tempVector.push_back(g.openList[i]);
 		}
+
 	}
 
 	if (tempVector.size() == 2) {
@@ -175,7 +176,7 @@ bool GetNextPosition(int& xpos, int& ypos)
 
 		for (size_t i = 1; i < tempVector.size(); i++)
 		{
-			if (tempVector[i].getHeur() < lowest.getHeur())
+			if (tempVector[i].getHeur() * g.data[tempVector[i].getX()][tempVector[i].getY()] < lowest.getHeur() * g.data[lowest.getX()][lowest.getY()])
 			{
 				lowest = tempVector[i];
 			}
@@ -256,3 +257,27 @@ bool Restart()
 {
 	return false;
 }
+
+/* maze.txt
+20 20 0 0 19 19
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 0 1 1 0 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1
+1 0 1 1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 1 0 1 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 1 1 0 1 0 1 0 1 1 0 0 0 0 1 0 1 1 0
+1 0 1 1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 0 0 1 1 0 1 1 0 1 0 1 1 0 1 0 0 0 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+2 1 1 2 1 1 2 2 1 1 2 1 1 2 1 2 1 2 2 2
+2 1 1 1 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 1 1 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 2 2 1 2 2 2 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 1 2 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 2 2 1 1 2 1 1 2 1 1 2 2 1 1 2 1 2 1 2
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+*/
