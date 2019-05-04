@@ -5,7 +5,7 @@
 
 Graph::Graph()
 {
-
+	//everything important in graph is in Graph.h
 }
 
 

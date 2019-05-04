@@ -11,21 +11,21 @@
 
 
 Graph g = Graph();
-
+int inDeadEnd = 1;
 
 size_t gnpCall = 0;
 
 char team[40] = "Group 10 -- Gavin Dewitt and Brad Hanel";
 
-__declspec(dllexport) char* GetTeam();
-__declspec(dllexport) bool SetMaze(const int** p_data, int p_width, int p_height);
-__declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
-__declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos);
-__declspec(dllexport) bool SetStart(int xPos, int yPos);
-__declspec(dllexport) bool GetStart(int& xPos, int& yPos);
-__declspec(dllexport) bool SetEnd(int xPos, int yPos);
-__declspec(dllexport) bool GetEnd(int& xPos, int& yPos);
-__declspec(dllexport) bool Restart();
+extern "C" __declspec(dllexport) char* GetTeam();
+extern "C" __declspec(dllexport) bool SetMaze(const int** p_data, int p_width, int p_height);
+extern "C" __declspec(dllexport) int** GetMaze(int& p_width, int& p_height);
+extern "C" __declspec(dllexport) bool GetNextPosition(int& xpos, int& ypos);
+extern "C" __declspec(dllexport) bool SetStart(int xPos, int yPos);
+extern "C" __declspec(dllexport) bool GetStart(int& xPos, int& yPos);
+extern "C" __declspec(dllexport) bool SetEnd(int xPos, int yPos);
+extern "C" __declspec(dllexport) bool GetEnd(int& xPos, int& yPos);
+extern "C" __declspec(dllexport) bool Restart();
 
 
 // Returns a string that has both team members name.  Have the C string value return both team member names.  There is no defined format for this.
@@ -50,7 +50,7 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 	{
 		for (int j = 0; j < g.width; j++) 
 		{
-			g.data[i][j] = p_data[i][j];
+			g.data[i][j] = p_data[i][j]; 
 		}
 	}
 
@@ -58,7 +58,7 @@ bool SetMaze(const int** p_data, int p_width, int p_height)
 	{
 		for (int j = 0; j < g.width; j++)
 		{
-			if (g.data[i][j] == 0)
+			if (g.data[i][j] > 0)
 			{
 				g.openList.push_back(Vertex(i, j, g.xEnd, g.yEnd));
 			}
@@ -91,6 +91,7 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
+	
 	//Set current/starting vector
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
 	
@@ -132,31 +133,41 @@ bool GetNextPosition(int& xpos, int& ypos)
 			tempVector.push_back(g.openList[i]);
 		}
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos - 1 && g.openList[i].visited == false)
-		{
+		{  
 			tempVector.push_back(g.openList[i]);
 		}
+
 	}
 
+	if (tempVector.size() == 2) {
+		inDeadEnd++;
+	}
+	else {
+		inDeadEnd = 1;
+	}
 	
 	//Check for more than 0 valid adjacent spaces
 	if (tempVector.size() == 1)
 	{
 		//If less than 0 valid spaces
-
 		//Pop the current vertex off the stack
 		g.previousPath.pop();
 
-		//Set lastVert equal to the previous vertex to step backwards
-		Vertex lastVert = g.previousPath.top();
-		
-		//Set the previously vertex's visited to false
-		for (size_t i = 0; i < g.openList.size(); i++)
-		{
-			if (g.openList[i].getX() == lastVert.getX() && g.openList[i].getY() == lastVert.getY())
+		for (int i = 0; i < inDeadEnd; i++) {
+
+			//Set the previously vertex's visited to false
+			for (size_t i = 0; i < g.openList.size(); i++)
 			{
-				g.openList[i].visited = false;
+				if (g.openList[i].getX() == g.previousPath.top().getX() && g.openList[i].getY() == g.previousPath.top().getY())
+				{
+					g.openList[i].visited = false;
+					xpos = g.previousPath.top().getX();
+					ypos = g.previousPath.top().getY();
+				}
 			}
 		}
+		
+
 	}
 	else 
 	{
@@ -165,7 +176,7 @@ bool GetNextPosition(int& xpos, int& ypos)
 
 		for (size_t i = 1; i < tempVector.size(); i++)
 		{
-			if (tempVector[i].getHeur() < lowest.getHeur())
+			if (tempVector[i].getHeur() * g.data[tempVector[i].getX()][tempVector[i].getY()] < lowest.getHeur() * g.data[lowest.getX()][lowest.getY()])
 			{
 				lowest = tempVector[i];
 			}
@@ -246,3 +257,27 @@ bool Restart()
 {
 	return false;
 }
+
+/* maze.txt
+20 20 0 0 19 19
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 0 1 1 0 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1
+1 0 1 1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 1 0 1 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 1 1 0 1 0 1 0 1 1 0 0 0 0 1 0 1 1 0
+1 0 1 1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 1 0
+1 0 0 0 1 1 0 1 1 0 1 0 1 1 0 1 0 0 0 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+2 1 1 2 1 1 2 2 1 1 2 1 1 2 1 2 1 2 2 2
+2 1 1 1 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 1 1 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 2 2 1 2 2 2 2 1 2 1 1 2 1 2 1 2 1 2
+2 1 1 2 1 2 1 1 2 1 2 1 1 2 1 2 1 2 1 2
+2 2 2 1 1 2 1 1 2 1 1 2 2 1 1 2 1 2 1 2
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+*/
