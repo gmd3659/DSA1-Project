@@ -91,7 +91,7 @@ int** GetMaze(int& p_width, int& p_height)
 //returns the next x/y postion to move to.
 bool GetNextPosition(int& xpos, int& ypos) 
 {
-	
+	bool found = false;
 	//Set current/starting vector
 	std::vector<Vertex> tempVector = {Vertex(xpos, ypos, g.xEnd, g.yEnd)};
 	
@@ -101,20 +101,15 @@ bool GetNextPosition(int& xpos, int& ypos)
 		if (g.openList[i].getX() == xpos && g.openList[i].getY() == ypos)
 		{
 			g.openList[i].visited = true;
+			found = true;
 
-			//Check for it being the start
-			if (g.previousPath.size() == 0)
-			{
-				g.previousPath.push(g.openList[i]);
 
-			}
-			//Check to make sure were not pushing the same vertex twice
-			else if (g.previousPath.top().getX() != xpos || g.previousPath.top().getY() != ypos)
-			{
-				g.previousPath.push(g.openList[i]);
-			}
+			g.previousPath.push(g.openList[i]);
+
+
 
 		}
+		
 	}
 
 	//Check which of the 4 adjacent spaces can be moved to
@@ -148,24 +143,29 @@ bool GetNextPosition(int& xpos, int& ypos)
 	
 	//Check for more than 0 valid adjacent spaces
 	if (tempVector.size() == 1)
-	{
+	{ 
 		//If less than 0 valid spaces
 		//Pop the current vertex off the stack
-		g.previousPath.pop();
+		if (g.previousPath.size() > 0) {
+			g.previousPath.pop();
 
-		for (int i = 0; i < inDeadEnd; i++) {
+			for (int i = 0; i < inDeadEnd; i++) {
 
-			//Set the previously vertex's visited to false
-			for (size_t i = 0; i < g.openList.size(); i++)
-			{
-				if (g.openList[i].getX() == g.previousPath.top().getX() && g.openList[i].getY() == g.previousPath.top().getY())
+				//Set the previously vertex's visited to false
+				for (size_t i = 0; i < g.openList.size(); i++)
 				{
-					g.openList[i].visited = false;
-					xpos = g.previousPath.top().getX();
-					ypos = g.previousPath.top().getY();
+					if (g.openList[i].getX() == g.previousPath.top().getX() && g.openList[i].getY() == g.previousPath.top().getY())
+					{
+						g.openList[i].visited = false;
+						xpos = g.previousPath.top().getX();
+						ypos = g.previousPath.top().getY();
+					}
 				}
 			}
 		}
+		
+
+		
 		
 
 	}
@@ -255,7 +255,7 @@ bool GetEnd(int& xPos, int& yPos)
 //this function will make the player start back at their start location and step through each part of the path to the end again.
 bool Restart()
 {
-	return false;
+	return true;
 }
 
 /* maze.txt
